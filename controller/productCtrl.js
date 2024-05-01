@@ -1,6 +1,7 @@
 const slugify = require("slugify");
 const Product = require("../models/productModel");
 const asyncHandler = require("express-async-handler");
+const { Error } = require("mongoose");
 
 const createProduct = asyncHandler(async (req, res) => {
   try {
@@ -55,7 +56,9 @@ const deleteProduct = asyncHandler(async (req, res) => {
 
 const getAllProduct = asyncHandler(async (req, res) => {
   try {
-    const getallProduct = await Product.find();
+    const queryObj = { ...req.query };
+    console.log(queryObj);
+    const getallProduct = await Product.find(req.query);
     res.json(getallProduct);
   } catch (error) {
     throw new Error(error);
