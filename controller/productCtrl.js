@@ -82,6 +82,14 @@ const getAllProduct = asyncHandler(async (req, res) => {
     } else {
       query = query.select("-__v");
     }
+    
+    // paginaton
+    const page = req.query.page;
+    const limit = req.query.iimit;
+    const skip = (page - 1) * limit;
+    query = query.skip(skip).limit(limit);
+
+
 
     const product = await query;
     res.json(product);
