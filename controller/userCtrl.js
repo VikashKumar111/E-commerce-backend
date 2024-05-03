@@ -221,6 +221,16 @@ const updatePassword = asyncHandler(async (req, res) => {
   }
 });
 
+const forgotPasswordToken = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) throw new Error("user not found with this email");
+  try{
+    
+  } catch (error) {
+    throw new Error(error);
+  }
+});
 module.exports = {
   createUser,
   loginUserCtrl,
@@ -233,4 +243,5 @@ module.exports = {
   handleRefreshToken,
   logout,
   updatePassword,
+  forgotPasswordToken,
 };
