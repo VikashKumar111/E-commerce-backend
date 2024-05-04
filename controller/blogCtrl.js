@@ -23,4 +23,6 @@ const updateBlog = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+
+
 module.exports = { createBlog, updateBlog };
