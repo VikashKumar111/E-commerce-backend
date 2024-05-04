@@ -24,5 +24,32 @@ const updateBlog = asyncHandler(async (req, res) => {
   }
 });
 
+const getBlog = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    const getBlog = await Blog.findById;
+    const updatedViews = await Blog.findByIdAndUpdate(
+      id,
+      {
+        $inc: { numViews: 1 },
+      },
+      {
+        new: true,
+      }
+      );
+      res.json(updatedViews);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
 
-module.exports = { createBlog, updateBlog };
+const getAllBlogs = asyncHandler(async (req, res) => {
+  try {
+    const getBlogs = await Blog.find();
+    res.json(getBlogs);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+module.exports = { createBlog, updateBlog, getBlog,getAllBlogs };
