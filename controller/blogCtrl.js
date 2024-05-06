@@ -119,6 +119,19 @@ const liketheBlog = asyncHandler(async (req, res) => {
   }
 });
 
+
+const disliketheBlog = asyncHandler(async (req, res) => {
+  const { blogId } = req.body;
+  validateMongoDbId(id);
+  // fetch the blog which you want to be disliked
+  const blog = await Blog.findById(blogId);
+  // find the login user
+  const loginUserId = req?.user?._id;
+  // find if the user has disliked the blog
+  const isDisliked = blog?.isDisliked;
+  // find if the user has liked the blog
+});
+
 module.exports = {
   createBlog,
   updateBlog,
