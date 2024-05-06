@@ -144,6 +144,17 @@ const disliketheBlog = asyncHandler(async (req, res) => {
     );
     res.json(blog);
   }
+
+  if (isDisliked) {
+    const blog = await Blog.findByIdAndUpdate(
+      blogId, {
+      $pull: { dislikes: loginUserId },
+      isDisliked: false
+    },
+      { new: true }
+    );
+    res.json(blog);
+  }
 });
 
 module.exports = {
