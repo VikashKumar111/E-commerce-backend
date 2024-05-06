@@ -14,6 +14,7 @@ const createBlog = asyncHandler(async (req, res) => {
 
 const updateBlog = asyncHandler(async (req, res) => {
   const { id } = req.params;
+    validateMongoDbId(id);
   try {
     const updateBlog = await Blog.findByIdAndUpdate(id, req.body, {
       new: true,
@@ -26,6 +27,7 @@ const updateBlog = asyncHandler(async (req, res) => {
 
 const getBlog = asyncHandler(async (req, res) => {
   const { id } = req.params;
+   validateMongoDbId(id);
   try {
     const getBlog = await Blog.findById;
     const updatedViews = await Blog.findByIdAndUpdate(
@@ -52,4 +54,20 @@ const getAllBlogs = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createBlog, updateBlog, getBlog,getAllBlogs };
+
+const deleteBlog = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+   validateMongoDbId(id);
+  try {
+    const deletedBlog = await Blog.findByIdAndDelete(id);
+    res.json(deletedBlog)
+  } catch (error){
+    throw new Error(error);
+  }
+})
+
+
+
+
+
+module.exports = { createBlog, updateBlog, getBlog,getAllBlogs ,deleteBlog};
