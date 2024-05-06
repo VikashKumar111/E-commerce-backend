@@ -130,6 +130,20 @@ const disliketheBlog = asyncHandler(async (req, res) => {
   // find if the user has disliked the blog
   const isDisliked = blog?.isDisliked;
   // find if the user has liked the blog
+  const alreadyLiked = blog?.likes?.find(
+    (userId) => userId?.toString() === loginUserId?.toString()
+  );
+  if (alreadyLiked) {
+    const blog = await Blog.findByIdAndUpdate(blogId, {
+      $pull: {
+        likes: loginUserId,
+        isLIked: false
+      }
+    },
+      { new: true }
+    );
+    res.json(blog);
+  }
 });
 
 module.exports = {
