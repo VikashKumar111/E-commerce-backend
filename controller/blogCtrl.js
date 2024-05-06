@@ -122,7 +122,7 @@ const liketheBlog = asyncHandler(async (req, res) => {
 
 const disliketheBlog = asyncHandler(async (req, res) => {
   const { blogId } = req.body;
-  validateMongoDbId(id);
+  validateMongoDbId(blogId);
   // fetch the blog which you want to be disliked
   const blog = await Blog.findById(blogId);
   // find the login user
@@ -154,6 +154,16 @@ const disliketheBlog = asyncHandler(async (req, res) => {
       { new: true }
     );
     res.json(blog);
+  } else {
+    const blog = await Blog.findByIdAndUpdate(
+      blogId,
+      {
+        $push: { dislikes: loginUserId },
+        isDisliked: true
+      },
+      { new: true }
+    );
+    res.json(blog);
   }
 });
 
@@ -164,4 +174,5 @@ module.exports = {
   getAllBlogs,
   deleteBlog,
   liketheBlog,
+  disliketheBlog,
 };
