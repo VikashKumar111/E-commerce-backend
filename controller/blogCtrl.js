@@ -66,7 +66,10 @@ const deleteBlog = asyncHandler(async (req, res) => {
   }
 })
 
-
+const liketheBlog = asyncHandler(async (req, res) => {
+  const { blogId} = req.body;
+  
+})
 
 
 
