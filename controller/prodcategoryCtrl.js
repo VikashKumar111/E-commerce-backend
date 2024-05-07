@@ -9,8 +9,20 @@ const createCategory = asyncHandler(async (req, res) => {
         res.json(newCategory);
         
     } catch (error) {
-        throw new Error(error)
+        throw new Error(error);
     }
 });
 
-module.exports = {createCategory,};
+const updateCategory = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    try {
+        const updatedCategory = await Category.findByIdAndUpdate(id, req.body, {
+            new: true,
+        });
+        res.json(updatedCategory);
+        
+    } catch (error) {
+        throw new Error(error);
+    }
+})
+module.exports = {createCategory, updateCategory};
