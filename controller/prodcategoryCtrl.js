@@ -31,5 +31,15 @@ const deleteCategory = asyncHandler(async (req, res) => {
     } catch (error) {
         throw new Error(error);
     }
+});
+
+const getCategory = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    try {
+        const getaCategory = await Category.findById(id);
+        res.json(getaCategory);
+    } catch (error) {
+        throw new Error(error)
+    }
 })
-module.exports = { createCategory, updateCategory , deleteCategory};
+module.exports = { createCategory, updateCategory , deleteCategory, getCategory};
