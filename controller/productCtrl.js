@@ -137,11 +137,31 @@ const rating = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   const { star, prodId } = req.body;
   try {
-    
-  } catch (error{
+    const product = await Product.findById(prodId);
+    let alreadyRated = product.ratings.find((rating) => rating.postedby.toString() === _id.toString());
+    if (alreadyRated) {
+       
+    } else {
+      const rateProduct = await Product.findByIdAndUpdate(
+        prodId,
+        {
+          $push: {
+            ratings: {
+              star: star,
+              postedby: _id,
+            },
+          },
+        },
+        {
+          new: true,
+        }
+      );
+      res.json(rateProduct);
+     }
+  } catch (error) {
     throw new Error(error);
-  })
-})
+  }
+});
 
 
 module.exports = {
@@ -151,4 +171,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   addToWishlist,
+  rating,
 };
