@@ -133,6 +133,15 @@ const addToWishlist = asyncHandler(async (req, res) => {
 });
 
 
+const rating = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { star, prodId } = req.body;
+  try {
+    
+  } catch (error{
+    throw new Error(error);
+  })
+})
 
 
 module.exports = {
