@@ -1,5 +1,6 @@
 const slugify = require("slugify");
 const Product = require("../models/productModel");
+const User = require("../models/userModel");
 const asyncHandler = require("express-async-handler");
 const { Error } = require("mongoose");
 const { query } = require("express");
@@ -59,7 +60,7 @@ const getAllProduct = asyncHandler(async (req, res) => {
   try {
     //Filtering
     const queryObj = { ...req.query };
-    const excludeFields = [ "page", "sort", "limit", "fields" ];
+    const excludeFields = ["page", "sort", "limit", "fields"];
     excludeFields.forEach((el) => delete queryObj[el]);
     console.log(queryObj);
     let queryStr = JSON.stringify(queryObj);
@@ -78,11 +79,10 @@ const getAllProduct = asyncHandler(async (req, res) => {
     if (req.query.fields) {
       const fields = req.query.fields.split(",");
       query = query.select(fields);
-      
     } else {
       query = query.select("-__v");
     }
-    
+
     // paginaton
     const page = req.query.page;
     const limit = req.query.limit;
@@ -101,10 +101,77 @@ const getAllProduct = asyncHandler(async (req, res) => {
   }
 });
 
+const addToWishlist = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { prodId } = req.body;
+  try {
+    const user = await User.findById(_id);
+    const alreadyexist = await user.wishlist.find(
+      (_id) => _id.toString() === prodId
+    );
+    if (alreadyexist) {
+      let user = await User.findByIdAndUpdate(
+        _id,
+        {
+          $pull: { wishlist: prodId },
+        },
+        { new: true }
+      );
+      res.json(user);
+    } else {
+      let user = await User.findByIdAndUpdate(_id,
+        {
+          $push: { wishlist: prodId },
+        },
+        { new: true, }
+      );
+      res.json(user);
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+
+// const addToWishlist = asyncHandler(async (req, res) => {
+//   const { _id } = req.user;
+//   const { prodId } = req.body;
+//   try {
+//     const user = await User.findById(_id);
+//     const alreadyadded = user.wishlist.find((id) => id.toString() === prodId);
+//     if (alreadyadded) {
+//       let user = await User.findByIdAndUpdate(
+//         _id,
+//         {
+//           $pull: { wishlist: prodId },
+//         },
+//         {
+//           new: true,
+//         }
+//       );
+//       res.json(user);
+//     } else {
+//       let user = await User.findByIdAndUpdate(
+//         _id,
+//         {
+//           $push: { wishlist: prodId },
+//         },
+//         {
+//           new: true,
+//         }
+//       );
+//       res.json(user);
+//     }
+//   } catch (error) {
+//     throw new Error(error);
+//   }
+// });
+
 module.exports = {
   createProduct,
   getaProduct,
   getAllProduct,
   updateProduct,
   deleteProduct,
+  addToWishlist,
 };
