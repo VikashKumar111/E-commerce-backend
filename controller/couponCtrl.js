@@ -21,18 +21,18 @@ const getAllCoupans = asyncHandler(async (req, res) => {
 });
 
 const getCoupan = asyncHandler(async (req, res) => {
-    const { id } = req.params;
-    validateMongoDbId(id);
-    try {
-        const getaCoupon = await Coupon.findById(id);
-        res.json(getaCoupon);
-    } catch (error) {
-        throw new Error(error);
-    }
-})
+  const { id } = req.params;
+  validateMongoDbId(id);
+  try {
+    const getaCoupon = await Coupon.findById(id);
+    res.json(getaCoupon);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
 
 module.exports = {
-  createCoupon,
-    getAllCoupans,
+  createCoupon, 
+  getAllCoupans,
   getCoupan,
 };
