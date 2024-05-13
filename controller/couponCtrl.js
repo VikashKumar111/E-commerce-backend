@@ -31,8 +31,21 @@ const getCoupan = asyncHandler(async (req, res) => {
   }
 });
 
+const updateCoupan = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    try {
+        const updatedCoupon = await Coupon.findByIdAndUpdate(id, req.body, {
+            new: true,
+        });
+        res.json(updatedCoupon);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
 module.exports = {
-  createCoupon, 
+  createCoupon,
   getAllCoupans,
   getCoupan,
+  updateCoupan,
 };
