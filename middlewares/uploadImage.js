@@ -27,14 +27,30 @@ const uploadPhoto = multer({
 });
 
 const productImgResize = async (req, res, next) => {
-    if (!req.files) return next();
-    await Promise.all(
-        req.files.map(async (file) => {
-            await sharp(file.path).resize(300, 300).toFormat("jpeg").jpeg({ quality: 90 }).toFile(`public/images/products/${file.filename}`);
-        })
-    );
-    next();
+  if (!req.files) return next();
+  await Promise.all(
+    req.files.map(async (file) => {
+      await sharp(file.path)
+        .resize(300, 300)
+        .toFormat("jpeg")
+        .jpeg({ quality: 90 })
+        .toFile(`public/images/products/${file.filename}`);
+    })
+  );
+  next();
 };
 
-
-module.exports = { uploadPhoto };
+const blogImgResize = async (req, res, next) => {
+  if (!req.files) return next();
+  await Promise.all(
+    req.files.map(async (file) => {
+      await sharp(file.path)
+        .resize(300, 300)
+        .toFormat("jpeg")
+        .jpeg({ quality: 90 })
+        .toFile(`public/images/blogs/${file.filename}`);
+    })
+  );
+  next();
+};
+module.exports = { uploadPhoto ,productImgResize,blogImgResize};
