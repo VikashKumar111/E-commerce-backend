@@ -194,7 +194,7 @@ const rating = asyncHandler(async (req, res) => {
 
 const uploadImages = asyncHandler(async (req, res) => {
   const { id } = req.params;
-    validateMongoDbId(id);
+  validateMongoDbId(id);
   try {
     const uploader = (path) => cloudinaryUploadImg(path, "images");
     const urls = [];
@@ -205,11 +205,22 @@ const uploadImages = asyncHandler(async (req, res) => {
       console.log(newpath);
       urls.push(newpath);
     }
+    const findProduct = await Product.findByIdAndUpdate(
+      id,
+      {
+        images: urls.map((file) => {
+          return file;
+        }),
+      },
+      {
+        new: true,
+      }
+    );
+    res.json(findProduct);
   } catch (error) {
     throw new Error(error);
   }
 });
-
 
 module.exports = {
   createProduct,
