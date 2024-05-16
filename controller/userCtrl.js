@@ -163,7 +163,16 @@ const saveAddress = asyncHandler(async (req, res) => {
   validateMongoDbId(_id);
 
   try {
-    
+    const updatedUser = await User.findByIdAndUpdate(
+      _id,
+      {
+        address: req?.body?.address,
+      },
+      {
+        new: true,
+      }
+    );
+    res.json(updatedUser);
   } catch (error) {
     throw new Error(error);
   }
@@ -342,4 +351,5 @@ module.exports = {
   resetpassword,
   loginAdmin,
   getWishlist,
+  saveAddress,
 }
