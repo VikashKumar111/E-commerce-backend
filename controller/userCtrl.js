@@ -60,6 +60,9 @@ const loginAdmin = asyncHandler(async (req, res) => {
   // check if user exists or not
   const findAdmin = await User.findOne({ email });
   if (findAdmin.role !== "admin") throw new Error(error);
+  if (findAdmin && (await findAdmin.isPasswordMatched(password))) {
+    const refreshToken = await generateRefreshToken(findAdmin?._id);
+  }
 })
 // handle refresh token
 
