@@ -52,6 +52,15 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
   }
 });
 
+
+// login admin
+
+const loginAdmin = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  // check if user exists or not
+  const findAdmin = await User.findOne({ email });
+  if (findAdmin.role !== "admin") throw new Error(error);
+})
 // handle refresh token
 
 const handleRefreshToken = asyncHandler(async (req, res) => {
