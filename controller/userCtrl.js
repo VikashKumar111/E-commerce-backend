@@ -154,6 +154,20 @@ const updatedUser = asyncHandler(async (req, res) => {
   }
 });
 
+
+
+// save user address
+
+const saveAddress = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+})
+
+
+
+
+
+
+
 // Get all users
 
 const getAllUser = asyncHandler(async (req, res) => {
