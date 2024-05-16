@@ -297,7 +297,7 @@ const resetpassword = asyncHandler(async (req, res) => {
 const getWishlist = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   try {
-    const findUser = await User.findById(_id);
+    const findUser = await User.findById(_id).populate("wishlist");
     res.json(findUser);
     
   } catch (error) {
