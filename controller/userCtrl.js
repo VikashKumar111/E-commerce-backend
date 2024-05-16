@@ -52,7 +52,6 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
   }
 });
 
-
 // login admin
 
 const loginAdmin = asyncHandler(async (req, res) => {
@@ -85,7 +84,6 @@ const loginAdmin = asyncHandler(async (req, res) => {
     throw new Error("Invalid Credentials");
   }
 });
-
 
 // handle refresh token
 
@@ -154,8 +152,6 @@ const updatedUser = asyncHandler(async (req, res) => {
   }
 });
 
-
-
 // save user address
 
 const saveAddress = asyncHandler(async (req, res) => {
@@ -177,12 +173,6 @@ const saveAddress = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
-
-
-
-
-
-
 
 // Get all users
 
@@ -281,11 +271,6 @@ const updatePassword = asyncHandler(async (req, res) => {
   }
 });
 
-
-
-
-
-
 const forgotPasswordToken = asyncHandler(async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
@@ -323,13 +308,11 @@ const resetpassword = asyncHandler(async (req, res) => {
   res.json(user);
 });
 
-
 const getWishlist = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   try {
     const findUser = await User.findById(_id).populate("wishlist");
     res.json(findUser);
-    
   } catch (error) {
     throw new Error(error);
   }
@@ -352,4 +335,4 @@ module.exports = {
   loginAdmin,
   getWishlist,
   saveAddress,
-}
+};

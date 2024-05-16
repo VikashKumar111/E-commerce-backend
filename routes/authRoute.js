@@ -20,6 +20,7 @@ const {
 const { authMiddleware, isAdmin } = require("../middlewares/authMiddleware");
 const router = express.Router();
 
+
 router.post("/register", createUser);
 router.post("/forgot-password-token", forgotPasswordToken);
 router.put("/reset-password/:token", resetpassword);
@@ -36,5 +37,6 @@ router.put("/edit-user", authMiddleware, updatedUser);
 router.put("/save-address",authMiddleware, saveAddress)
 router.put("/block-user/:id", authMiddleware, isAdmin, blockUser);
 router.put("/unblock-user/:id", authMiddleware, isAdmin, unblockUser);
+
 
 module.exports = router;
