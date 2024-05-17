@@ -1,5 +1,7 @@
 const { generateToken } = require("../config/jwtToken");
 const User = require("../models/userModel");
+const Cart = require("../models/cartModel");
+const Product = require("../models/productModel");
 const asyncHandler = require("express-async-handler");
 const validateMongoDbId = require("../utils/validateMongodbid");
 const { generateRefreshToken } = require("../config/refreshToken");
@@ -324,7 +326,12 @@ const userCart = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   validateMongoDbId(_id);
   try {
-    
+    const user = await User.findById(_id);
+    // check if user already have products in cart
+    const alreadyExistCart = await Cart.findOne({ orderby: _id });
+    if (alreadyExistCart) {
+      alreadyExistCart.remove();
+    }
   } catch (error) {
     throw new Error(error);
   }
