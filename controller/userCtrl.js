@@ -320,7 +320,14 @@ const getWishlist = asyncHandler(async (req, res) => {
 
 
 const userCart = asyncHandler(async (req, res) => {
-  res.send("hello from cart");
+  const { cart } = req.body;
+  const { _id } = req.user;
+  validateMongoDbId(_id);
+  try {
+    
+  } catch (error) {
+    throw new Error(error);
+  }
 });
 module.exports = {
   createUser,
