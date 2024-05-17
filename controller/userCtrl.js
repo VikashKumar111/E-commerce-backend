@@ -342,6 +342,7 @@ const userCart = asyncHandler(async (req, res) => {
       object.price = getPrice.price;
       products.push(object);
     }
+    console.log(products);
   } catch (error) {
     throw new Error(error);
   }
