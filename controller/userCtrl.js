@@ -320,7 +320,6 @@ const getWishlist = asyncHandler(async (req, res) => {
   }
 });
 
-
 const userCart = asyncHandler(async (req, res) => {
   const { cart } = req.body;
   const { _id } = req.user;
@@ -331,9 +330,10 @@ const userCart = asyncHandler(async (req, res) => {
     // check if user already have products in cart
     const alreadyExistCart = await Cart.findOne({ orderby: _id });
     if (alreadyExistCart) {
-      alreadyExistCart.remove();
+      //  await alreadyExistCart.remove();
+      await Cart.deleteOne({ _id: alreadyExistCart._id });
     }
-    for (let i = 0; i < cart.length; i++){
+    for (let i = 0; i < cart.length; i++) {
       let object = {};
       object.product = cart[i]._id;
       object.count = cart[i].count;
@@ -342,11 +342,32 @@ const userCart = asyncHandler(async (req, res) => {
       object.price = getPrice.price;
       products.push(object);
     }
-    console.log(products);
+    let cartTotal = 0;
+    for (let i = 0; i < products.length; i++) {
+      cartTotal = cartTotal + products[i].price * products[i].count;
+    }
+    let newCart = await new Cart({
+      products,
+      cartTotal,
+      orderby: user?._id,
+    }).save();
+    res.json(newCart);
   } catch (error) {
     throw new Error(error);
   }
 });
+
+
+const getUserCart = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  validateMongoDbId(_id);
+  try {
+    
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
 module.exports = {
   createUser,
   loginUserCtrl,
