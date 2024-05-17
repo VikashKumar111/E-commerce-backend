@@ -326,11 +326,21 @@ const userCart = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   validateMongoDbId(_id);
   try {
+    let products = [];
     const user = await User.findById(_id);
     // check if user already have products in cart
     const alreadyExistCart = await Cart.findOne({ orderby: _id });
     if (alreadyExistCart) {
       alreadyExistCart.remove();
+    }
+    for (let i = 0; i < cart.length; i++){
+      let object = {};
+      object.product = cart[i]._id;
+      object.count = cart[i].count;
+      object.color = cart[i].color;
+      let getPrice = await Product.findById(cart[i]._id).select("price").exec();
+      object.price = getPrice.price;
+      products.push(object);
     }
   } catch (error) {
     throw new Error(error);
