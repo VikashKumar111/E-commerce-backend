@@ -9,6 +9,7 @@ const { generateRefreshToken } = require("../config/refreshToken");
 const jwt = require("jsonwebtoken");
 const sendEmail = require("./emailCtrl");
 const crypto = require("crypto");
+const uniqid = require("uniqid");
 
 const createUser = asyncHandler(async (req, res) => {
   const email = req.body.email;
@@ -427,11 +428,24 @@ const createOrder = asyncHandler(async (req, res) => {
     } else {
       finalAmount = userCart.cartTotal;
     }
+
+    let newOrder = await new Order({
+      products: userCart.products,
+      paymentIntent: {
+        id: uniqid(),
+        method: "COD",
+        amount: finalAmount,
+        status: "Cash on Delivery",
+        created: Date.now(),
+        currency: "usd",
+      },
+      orderby: user._id,
+      orderStatus: "Cash on Delivery",
+    }).save();
   } catch (error) {
     throw new Error(error);
   }
 });
-
 
 module.exports = {
   createUser,
