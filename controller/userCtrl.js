@@ -419,7 +419,14 @@ const createOrder = asyncHandler(async (req, res) => {
   validateMongoDbId(_id);
   try {
     if (!COD) throw new Error("Create cash order failed");
-    
+    const user = await User.findById(_id);
+    let userCart = await Cart.findOne({ orderby: user._id });
+    let finalAmount = 0;
+    if (couponApplied && userCart.totalAfterDiscount) {
+      finalAmount = userCart.totalAfterDiscount;
+    } else {
+      finalAmount = userCart.cartTotal;
+    }
   } catch (error) {
     throw new Error(error);
   }
