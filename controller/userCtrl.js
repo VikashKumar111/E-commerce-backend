@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const Cart = require("../models/cartModel");
 const Product = require("../models/productModel");
 const Coupon = require("../models/couponModel");
+const Order = require("../models/orderModel");
 const asyncHandler = require("express-async-handler");
 const validateMongoDbId = require("../utils/validateMongodbid");
 const { generateRefreshToken } = require("../config/refreshToken");
@@ -444,14 +445,25 @@ const createOrder = asyncHandler(async (req, res) => {
     }).save();
     let update = userCart.products.map((item) => {
       return {
-        updatedOne: {
+        updateOne: {
           filter: { _id: item.product._id },
           update: { $inc: { quantity: -item.count, sold: +item.count } },
         },
       };
     });
-    const updated = await Product.bulkWrite(update, {});
-    res.json({ message: "success" });
+    const updated = await Product.bulkWrite(update);
+    res.json({ message: "success", updated });
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+
+const getOrders = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  validateMongoDbId(_id);
+  try {
+    
   } catch (error) {
     throw new Error(error);
   }
