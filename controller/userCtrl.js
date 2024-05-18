@@ -442,6 +442,16 @@ const createOrder = asyncHandler(async (req, res) => {
       orderby: user._id,
       orderStatus: "Cash on Delivery",
     }).save();
+    let update = userCart.products.map((item) => {
+      return {
+        updatedOne: {
+          filter: { _id: item.product._id },
+          update: { $inc: { quantity: -item.count, sold: +item.count } },
+        },
+      };
+    });
+    const updated = await Product.bulkWrite(update, {});
+    res.json({ message: "success" });
   } catch (error) {
     throw new Error(error);
   }
@@ -468,4 +478,5 @@ module.exports = {
   getUserCart,
   emptyCart,
   applyCoupon,
+  createOrder,
 };
