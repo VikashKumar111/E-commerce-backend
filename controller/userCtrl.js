@@ -471,6 +471,17 @@ const getOrders = asyncHandler(async (req, res) => {
   }
 });
 
+
+const updateOrderStatus = asyncHandler(async (req, res) => {
+  const { status } = req.body;
+  const { _id } = req.params;
+  validateMongoDbId(_id);
+  try {
+    
+  } catch (error) {
+    throw new Error(error);
+  }
+});
 module.exports = {
   createUser,
   loginUserCtrl,
