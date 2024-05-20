@@ -48,4 +48,13 @@ const getColor = asyncHandler(async (req, res) => {
         throw new Error(error);
     };
 });
-module.exports = { createColor, updateColor, deleteColor,getColor };
+
+const getallColor = asyncHandler(async (req, res) => {
+    try {
+        const getAllColor = await Color.find();
+        res.json(getAllColor);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+module.exports = { createColor, updateColor, deleteColor,getColor,getallColor};
