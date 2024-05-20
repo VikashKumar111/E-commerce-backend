@@ -46,4 +46,13 @@ const getEnquiry = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createEnquiry, updateEnquiry, deleteEnquiry, getEnquiry };
+const getallEnquiry = asyncHandler(async (req, res) => {
+    try {
+        const getAllEnquiry = await Enquiry.find();
+        res.json(getAllEnquiry);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
+module.exports = { createEnquiry, updateEnquiry, deleteEnquiry, getEnquiry, getallEnquiry };
