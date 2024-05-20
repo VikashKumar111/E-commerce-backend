@@ -24,4 +24,18 @@ const updateEnquiry = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createEnquiry , updateEnquiry};
+const deleteEnquiry = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    validateMongoDbId(id);
+    try {
+        const deletedEnquiry = await Enquiry.findByIdAndDelete(id);
+        res.json(deletedEnquiry);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
+
+
+
+module.exports = { createEnquiry , updateEnquiry, deleteEnquiry};
