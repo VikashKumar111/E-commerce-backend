@@ -415,6 +415,7 @@ const applyCoupon = asyncHandler(async (req, res) => {
   }
 });
 
+
 const createOrder = asyncHandler(async (req, res) => {
   const { COD, couponApplied } = req.body;
   const { _id } = req.user;
@@ -458,6 +459,8 @@ const createOrder = asyncHandler(async (req, res) => {
   }
 });
 
+
+
 const getOrders = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   validateMongoDbId(_id);
@@ -491,6 +494,8 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+
+
 module.exports = {
   createUser,
   loginUserCtrl,
