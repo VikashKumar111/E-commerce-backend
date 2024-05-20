@@ -1,27 +1,27 @@
-// ("")
+const Enquiry = require("../models/enqModel");
+const asyncHandler = require("express-async-handler");
+const validateMongoDbId = require("../utils/validateMongodbid");
 
-const mongoose = require("mongoose");
-
-var enqSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-    },
-    email: {
-        type: String,
-        required: true,
-    },
-    mobile: {
-        type: String,
-        required: true,
-    },
-    comment: {
-        type: String,
-        required: true,
-    },
-    status: {
-        type: String,
-        default: "Submitted",
-        enum: ["Submitted", "Contacted", "In Progress", "Resolved"],
-    },
+const createEnquiry = asyncHandler(async (req, res) => {
+  try {
+    const newEnquiry = await Enquiry.create(req.body);
+    res.json(newEnquiry);
+  } catch (error) {
+    throw new Error(error);
+  }
 });
+
+const updateEnquiry = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  validateMongoDbId(id);
+  try {
+    const updatedEnquiry = await Enquiry.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+      res.json(updatedEnquiry);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+module.exports = { createEnquiry , updateEnquiry};
