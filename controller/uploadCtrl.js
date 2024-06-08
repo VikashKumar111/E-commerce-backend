@@ -48,6 +48,7 @@
 
 
 const fs = require("fs");
+
 const asyncHandler = require("express-async-handler");
 
 const {
@@ -70,16 +71,13 @@ const uploadImages = asyncHandler(async (req, res) => {
       const newpath = await uploader(path);
       console.log(newpath);
       urls.push(newpath);
+      // fs.unlinkSync(path);
 
-      // Use asynchronous unlink and add a delay to ensure file is not in use
-      setTimeout(() => {
-        fs.unlink(path, (err) => {
-          if (err) {
-            console.error(`Failed to delete file: ${path}`, err);
-          }
-        });
-      }, 100); // 100ms delay
+    
     }
+
+
+    
 
     const images = urls.map((file) => {
       return file;
