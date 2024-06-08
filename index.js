@@ -32,9 +32,10 @@ app.use("/api/blog", blogRouter);
 app.use("/api/blogcategory", blogcategoryRouter);
 app.use("/api/brand", brandRouter);
 app.use("/api/coupon", couponRouter);
-app.use("/api/upload", uploadRouter);
 app.use("/api/color", colorRouter);
 app.use("/api/enquiry", enqRouter);
+app.use("/api/upload", uploadRouter);
+
 app.use(notFound);
 app.use(errorHandler);
 app.listen(PORT, () => {
