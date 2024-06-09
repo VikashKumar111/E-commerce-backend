@@ -15,7 +15,7 @@ var productSchema = new mongoose.Schema(
       lowercase: true,
     },
     description: {
-      type: String,                                                            
+      type: String,
       required: true,
     },
     price: {
@@ -38,9 +38,14 @@ var productSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    images: [],
+    images: [
+      {
+        public_id: String,
+        url: String,
+      },
+    ],
     color: [],
-    tags:[],
+    tags: [],
     ratings: [
       {
         star: Number,
@@ -51,7 +56,7 @@ var productSchema = new mongoose.Schema(
     totalrating: {
       type: String,
       default: 0,
-    }
+    },
   },
   { timestamps: true }
 );
