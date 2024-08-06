@@ -30,6 +30,26 @@ var orderSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    paidAt: {
+      type: Date,
+      default: Date.now(),
+    },
+    month: {
+      type: String,
+      default: new Date().getMonth(),
+    },
+    totalPrice: {
+      type: Number,
+      required: true,
+    },
+    totalPriceAfterDiscount: {
+      type: Number,
+      required: true,
+    },
+    orderStatus: {
+      type: String,
+      default: "Ordered",
+    },
   },
   {
     timestamps: true,
