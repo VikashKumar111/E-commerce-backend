@@ -19,8 +19,16 @@ const checkout = async (req, res) => {
 }
 
 
+const paymentVerification = async(req, res) => {
+    const { razorpayOrderId, razorpayPaymentId } = req.body;
+    res.json({
+        razorpayOrderId,razorpayPaymentId
+    })
+}
+
+
 
 
 module.exports = {
-    checkout
+    checkout, paymentVerification
 }
