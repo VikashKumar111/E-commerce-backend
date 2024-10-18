@@ -1,7 +1,7 @@
 const Razorpay = require("razorpay");
 const { concurrency } = require("sharp");
 const instance = new Razorpay({
-    key_id:"" , key_secret:""
+    key_id:"5" , key_secret:"5"
 })
 
 
